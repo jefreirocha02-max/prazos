@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f3a5f">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Secretário Jurídico</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{
+  --bg:#f3f5f8; --card:#fff; --ink:#18202b; --muted:#5d6878; --line:#dde3ea;
+  --brand:#1f3a5f; --brand2:#2a5c96; --soft:#e6eef8;
+  --ok:#198754; --warn:#c88a04; --alert:#d9480f; --crit:#c92a2a;
+  --t-aud:#c92a2a; --t-prazo:#e8590c; --t-per:#7048e8; --t-ses:#d6336c; --t-at:#2b8a3e; --t-dil:#0c8599; --t-out:#6c757d; --t-g:#adb5bd;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0e131a; --card:#171e27; --ink:#e6ebf1; --muted:#9aa6b5; --line:#2a3440;
+    --brand:#14263d; --brand2:#6ea8fe; --soft:#1c2a3b;
+    --ok:#40c057; --warn:#fcc419; --alert:#ff922b; --crit:#ff6b6b;
+    --t-aud:#ff6b6b; --t-prazo:#ff922b; --t-per:#9775fa; --t-ses:#f06595; --t-at:#51cf66; --t-dil:#3bc9db; --t-out:#adb5bd; --t-g:#5c6773;
+    --shadow:none;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+button,input,select,textarea{font:inherit;color:inherit}
+header.top{position:sticky;top:0;z-index:5;background:var(--brand);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:12px}
+header.top h1{font-size:17px;margin:0;font-weight:650}
+header.top .status{font-size:12px;opacity:.85}
+.grow{flex:1;min-width:0}
+.iconbtn{background:transparent;border:0;color:inherit;padding:8px;border-radius:10px;cursor:pointer;display:grid;place-items:center}
+main{max-width:680px;margin:0 auto;padding:14px 16px 96px}
+.tab{display:none}.tab.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card h2{font-size:15px;margin:0 0 10px;font-weight:650}
+.muted{color:var(--muted)} .small{font-size:12.5px}
+.row{display:flex;gap:8px;align-items:center}.row.wrap{flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:550;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn.primary{background:var(--brand2);border-color:var(--brand2);color:#fff}
+@media (prefers-color-scheme: dark){.btn.primary{color:#0b1220}}
+.btn.ghost{background:transparent}
+.btn.sm{padding:6px 10px;font-size:13px;border-radius:10px}
+.btn.danger{color:var(--crit)}
+.btn:disabled{opacity:.5}
+input[type=text],input[type=number],input[type=date],input[type=time],input[type=url],input[type=password],input[type=email],input[type=search],select,textarea{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 10px;outline:none;min-width:0}
+input:focus,select:focus,textarea:focus{border-color:var(--brand2)}
+textarea{min-height:64px;resize:vertical}
+label.f{display:block;font-size:12.5px;color:var(--muted);margin:8px 0 4px}
+
+.mic-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;padding:6px 0 4px}
+.mic{width:96px;height:96px;border-radius:50%;border:0;background:var(--brand2);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 18px rgba(42,92,150,.35);transition:transform .15s}
+.mic:active{transform:scale(.96)}
+.mic.listening{background:var(--crit);animation:pulse 1.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(201,42,42,.45)}70%{box-shadow:0 0 0 18px rgba(201,42,42,0)}100%{box-shadow:0 0 0 0 rgba(201,42,42,0)}}
+.mic-hint{text-align:center;font-size:13px;color:var(--muted);min-height:20px}
+.interim{font-style:italic;color:var(--muted);text-align:center;min-height:18px}
+
+.form .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.form label{font-size:11.5px;color:var(--muted);display:block;margin:6px 0 3px}
+.pv{border:1px dashed var(--line);border-radius:14px;padding:10px;margin-bottom:10px}
+.note{font-size:12.5px;border-radius:10px;padding:8px 10px;margin-top:8px;background:var(--soft)}
+.note.w{background:rgba(232,89,12,.12);color:var(--ink)}
+.calc{display:grid;grid-template-columns:76px 1fr;gap:6px;align-items:end;margin-top:6px}
+.calc .row{grid-column:1/-1}
+.calc .row select{flex:1}
+a.btn{color:var(--ink)}
+
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;color:#fff;font-weight:650;white-space:nowrap}
+.bt-Audiência{background:var(--t-aud)} .bt-Prazo{background:var(--t-prazo)} .bt-Perícia{background:var(--t-per)} .bt-Sessão{background:var(--t-ses)} .bt-Atendimento{background:var(--t-at)} .bt-Diligência{background:var(--t-dil)} .bt-Outro{background:var(--t-out)} .bt-Google{background:var(--t-g)}
+.bl-Audiência{border-left-color:var(--t-aud)!important} .bl-Prazo{border-left-color:var(--t-prazo)!important} .bl-Perícia{border-left-color:var(--t-per)!important} .bl-Sessão{border-left-color:var(--t-ses)!important} .bl-Atendimento{border-left-color:var(--t-at)!important} .bl-Diligência{border-left-color:var(--t-dil)!important} .bl-Outro{border-left-color:var(--t-out)!important} .bl-Google{border-left-color:var(--t-g)!important}
+
+.ev{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:12px;margin-bottom:6px}
+.ev .d{flex:1;min-width:0}
+.ev .d b{display:block;font-weight:620;overflow-wrap:anywhere}
+.ev .h{font-weight:700;font-variant-numeric:tabular-nums;min-width:44px;font-size:13.5px}
+.ev.done{opacity:.55}.ev.done b{text-decoration:line-through}
+.ev.g{background:transparent;border-style:dashed}
+.ev .acts{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.grp{font-size:12.5px;font-weight:700;margin:14px 2px 6px;display:flex;align-items:center;gap:8px}
+.grp .n{font-weight:600;color:var(--muted)}
+.c-crit{color:var(--crit)} .c-alert{color:var(--alert)} .c-warn{color:var(--warn)} .c-brand{color:var(--brand2)}
+
+.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px}
+.nav b{font-size:15.5px;text-align:center}
+.seg{display:flex;background:var(--line);border-radius:12px;padding:3px;margin-bottom:12px}
+.seg button{flex:1;border:0;background:transparent;padding:8px;border-radius:9px;cursor:pointer;font-weight:600;color:var(--muted)}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.day{margin-bottom:10px}
+.day .dh{font-size:12.5px;color:var(--muted);margin:10px 2px 6px;display:flex;justify-content:space-between}
+.day .dh.today{color:var(--brand2);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.grid .wd{font-size:11px;text-align:center;color:var(--muted);padding:4px 0}
+.cell{min-height:54px;border-radius:10px;background:var(--card);border:1px solid var(--line);padding:4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
+.cell.out{opacity:.35}
+.cell.today{border-color:var(--brand2);box-shadow:inset 0 0 0 1px var(--brand2)}
+.cell.sel{background:var(--soft)}
+.cell .n{font-size:13px;font-weight:600}
+.cell .dots{display:flex;flex-wrap:wrap;gap:2px;justify-content:center}
+.cell .dots i{width:7px;height:7px;border-radius:50%;display:block}
+.cell.hol .n{color:var(--crit)}
+.year{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;cursor:pointer}
+.mcard.cur{border-color:var(--brand2)}
+.mcard b{display:block;font-size:13.5px}
+.mcard .big{font-size:22px;font-weight:750}
+.mcard .bar{display:flex;height:6px;border-radius:999px;overflow:hidden;background:var(--line);margin-top:6px}
+.mcard .bar span{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 2px}
+.chips{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:13px}
+.chip.on{background:var(--brand2);border-color:var(--brand2);color:#fff}
+@media (prefers-color-scheme: dark){.chip.on{color:#0b1220}}
+
+nav.bottom{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:5}
+nav.bottom button{flex:1;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:var(--muted);padding:6px 0;cursor:pointer;border-radius:10px;position:relative}
+nav.bottom button.on{color:var(--brand2);font-weight:650}
+nav.bottom .badge{position:absolute;top:2px;left:calc(50% + 6px);background:var(--crit);color:#fff;border-radius:999px;font-size:10px;padding:0 5px;font-weight:700;display:none}
+.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:#1c2633;color:#fff;padding:10px 16px;border-radius:12px;font-size:13.5px;max-width:92vw;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
+.toast.on{opacity:1}
+.empty{text-align:center;color:var(--muted);padding:20px 10px}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;display:none;align-items:flex-end;justify-content:center}
+.sheet.on{display:flex}
+.sheet .box{background:var(--card);width:100%;max-width:680px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
+details summary{cursor:pointer;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-3 7a3 3 0 0 0 6 0z"/><path d="M19 7l-3 7a3 3 0 0 0 6 0z"/><path d="M8 21h8"/></svg>
+  <div class="grow">
+    <h1>Secretário Jurídico</h1>
+    <div class="status" id="status">Carregando…</div>
+  </div>
+  <button class="iconbtn" id="btnSync" aria-label="Atualizar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+  </button>
+</header>
+
+<main>
+  <!-- INÍCIO -->
+  <section class="tab on" id="tab-inicio">
+    <div class="card">
+      <div class="mic-wrap">
+        <button class="mic" id="btnMic" aria-label="Ditar compromisso">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><path d="M12 18v4"/></svg>
+        </button>
+        <div class="mic-hint" id="micHint">Toque e fale: cliente, ato processual e data</div>
+        <div class="interim" id="interim"></div>
+      </div>
+      <label class="f" for="entrada">Ou digite</label>
+      <textarea id="entrada" placeholder="Ex.: audiência de instrução da cliente Maria José dia 15 de outubro às 14h na 2ª Vara do Trabalho"></textarea>
+      <div class="row" style="margin-top:8px">
+        <button class="btn primary grow" id="btnInterpretar">Interpretar</button>
+        <button class="btn" id="btnManual">Manual</button>
+      </div>
+    </div>
+
+    <div id="previewBox" style="display:none">
+      <div class="card">
+        <h2>Confira antes de agendar</h2>
+        <div id="preview"></div>
+        <div class="row">
+          <button class="btn primary grow" id="btnSalvar">Salvar na agenda</button>
+          <button class="btn ghost" id="btnDescartar">Descartar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Alertas</h2>
+      <div id="alertas"></div>
+    </div>
+
+    <div class="card">
+      <details>
+        <summary>Exemplos de frases</summary>
+        <ul class="small muted" style="padding-left:18px;margin:8px 0 0">
+          <li>“Audiência de conciliação do cliente João Batista dia 20 às 9h30, processo 0001234-56.2026.8.06.0001”</li>
+          <li>“Contestação da cliente Fernanda Lima prazo de 15 dias úteis”</li>
+          <li>“Resposta ao evento 32 cliente Paulo José até sexta-feira”</li>
+          <li>“Aditamento da inicial cliente Raissa até dia 12/11”</li>
+          <li>“Réplica cliente Maria Nunes em 15 dias úteis”</li>
+          <li>“Atendimento com o cliente Wesley amanhã às 2 da tarde”</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <!-- AGENDA -->
+  <section class="tab" id="tab-agenda">
+    <div class="seg" id="seg">
+      <button data-v="semana" class="on">Semana</button>
+      <button data-v="mes">Mês</button>
+      <button data-v="ano">Ano</button>
+    </div>
+    <div class="nav">
+      <button class="btn ghost" data-nav="-1" aria-label="Anterior">‹</button>
+      <b id="navLabel"></b>
+      <button class="btn ghost" data-nav="1" aria-label="Próximo">›</button>
+    </div>
+    <div class="legend" id="legend"></div>
+    <div id="agenda"></div>
+  </section>
+
+  <!-- LISTA -->
+  <section class="tab" id="tab-lista">
+    <input type="search" id="busca" placeholder="Buscar por cliente, processo ou ato">
+    <div class="chips" id="chips">
+      <button class="chip on" data-f="Pendente">Pendentes</button>
+      <button class="chip" data-f="Concluído">Concluídos</button>
+      <button class="chip" data-f="todos">Todos</button>
+    </div>
+    <div id="lista"></div>
+  </section>
+
+  <!-- AJUSTES -->
+  <section class="tab" id="tab-ajustes">
+    <div class="card">
+      <h2>Conexão com Google Agenda e Drive</h2>
+      <div id="connInfo" class="small muted"></div>
+      <div id="connFields">
+        <label class="f" for="apiUrl">URL do Apps Script (termina em /exec)</label>
+        <input type="url" id="apiUrl" placeholder="https://script.google.com/macros/s/…/exec">
+      </div>
+      <label class="f" for="token">Token de acesso (aba Config da planilha)</label>
+      <input type="password" id="token" placeholder="token">
+      <div class="row wrap" style="margin-top:10px">
+        <button class="btn primary grow" id="btnConectar">Salvar e testar</button>
+        <a class="btn" id="lnkPlanilha" target="_blank" rel="noopener" style="display:none">Abrir planilha</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Lembretes e prazos</h2>
+      <label class="f" for="cfgHora">Horário padrão para prazos sem hora</label>
+      <input type="time" id="cfgHora">
+      <label class="f" for="cfgAnt">Lembrete no dia da audiência: quantos minutos antes</label>
+      <input type="number" id="cfgAnt" inputmode="numeric">
+      <label class="f" for="cfgCont">Contagem padrão quando a frase não disser</label>
+      <select id="cfgCont"><option value="úteis">Dias úteis (CPC art. 219; CLT art. 775)</option><option value="corridos">Dias corridos (CPP art. 798)</option></select>
+      <label class="row small" style="margin-top:10px"><input type="checkbox" id="cfgRec"> Suspender a contagem em dias úteis entre 20/12 e 20/01 (CPC art. 220; CLT art. 775-A)</label>
+      <label class="row small" style="margin-top:8px"><input type="checkbox" id="cfgMail"> Enviar e-mail-resumo diário às 7h</label>
+      <label class="f" for="cfgEmail">E-mail do resumo</label>
+      <input type="email" id="cfgEmail">
+      <div class="row wrap" style="margin-top:10px">
+        <button class="btn primary grow" id="btnCfg">Salvar</button>
+        <button class="btn" id="btnTestMail">Enviar e-mail de teste</button>
+      </div>
+      <p class="small muted">Os lembretes no celular são os do Google Agenda: 2 dias antes, 1 dia antes e no próprio dia. Feriados locais e suspensões de expediente devem ser incluídos na aba <b>Feriados</b> da planilha.</p>
+    </div>
+
+    <div class="card">
+      <h2>Exportar</h2>
+      <div class="row wrap">
+        <button class="btn" id="btnICS">Arquivo de agenda (.ics)</button>
+        <button class="btn" id="btnCSV">Planilha (.csv)</button>
+        <button class="btn" id="btnPend">Enviar pendentes</button>
+      </div>
+      <p class="small muted" id="pendInfo"></p>
+    </div>
+  </section>
+</main>
+
+<nav class="bottom">
+  <button class="on" data-tab="inicio"><span class="badge" id="badge"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/></svg>Início</button>
+  <button data-tab="agenda"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Agenda</button>
+  <button data-tab="lista"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Lista</button>
+  <button data-tab="ajustes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1 12h3M20 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Ajustes</button>
+</nav>
+
+<div class="sheet" id="sheet"><div class="box"><h2 style="margin-top:0">Editar compromisso</h2><div id="editForm"></div>
+  <div class="row" style="margin-top:12px"><button class="btn primary grow" id="btnEditSave">Salvar alterações</button><button class="btn ghost" id="btnEditCancel">Cancelar</button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================================
+   SECRETÁRIO JURÍDICO — app
+   ===================================================================== */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+const pad = n => String(n).padStart(2, '0');
+const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+const fromIso = s => { const p = s.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2], 12); };
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+const today = () => iso(new Date());
+const br = s => s ? s.split('-').reverse().join('/') : '';
+const plain = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const plainAligned = s => Array.from(String(s)).map(c => c.normalize('NFD')[0]).join('').toLowerCase();
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const MES_P = MESES.map(plain);
+const DSEM = ['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+const cap = s => s ? s[0].toUpperCase() + s.slice(1) : s;
+const longDate = s => cap(fromIso(s).toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' }));
+const daysBetween = (a, b) => Math.round((fromIso(b) - fromIso(a)) / 86400000);
+let toastT;
+function toast(msg, ms) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), ms || 2800); }
+
+const TIPOS = ['Audiência', 'Prazo', 'Perícia', 'Sessão', 'Atendimento', 'Diligência', 'Outro'];
+
+/* ---------- feriados e contagem de prazos ---------- */
+function easter(y) {
+  const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25),
+    g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4,
+    l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451),
+    mo = Math.floor((h + l - 7 * m + 114) / 31), da = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(y, mo - 1, da, 12);
+}
+const HCACHE = {};
+function holidaysOf(y) {
+  if (HCACHE[y]) return HCACHE[y];
+  const m = {};
+  [['01-01','Confraternização Universal'],['04-21','Tiradentes'],['05-01','Dia do Trabalho'],['09-07','Independência do Brasil'],
+   ['10-12','Nossa Senhora Aparecida'],['11-02','Finados'],['11-15','Proclamação da República'],['11-20','Dia Nacional de Zumbi e da Consciência Negra'],
+   ['12-25','Natal'],['03-19','São José (feriado estadual — CE)'],['03-25','Data Magna do Ceará (feriado estadual — CE)']]
+    .forEach(([md, n]) => m[y + '-' + md] = n);
+  const e = easter(y);
+  [[-48,'Carnaval (segunda)'],[-47,'Carnaval (terça)'],[-2,'Sexta-feira Santa'],[60,'Corpus Christi']]
+    .forEach(([o, n]) => m[iso(addDays(e, o))] = n);
+  return (HCACHE[y] = m);
+}
+function holidayName(isoD) {
+  const y = +isoD.slice(0, 4);
+  const extra = (S.config.feriados || []).find(f => f.date === isoD);
+  return extra ? extra.desc || 'Feriado (planilha)' : holidaysOf(y)[isoD] || '';
+}
+function inRecesso(isoD) { const md = isoD.slice(5); return md >= '12-20' || md <= '01-20'; }
+function naoUtil(isoD, comRecesso) {
+  const wd = fromIso(isoD).getDay();
+  return wd === 0 || wd === 6 || !!holidayName(isoD) || (comRecesso && S.config.recesso && inRecesso(isoD));
+}
+/** Conta N dias a partir de "inicio" (excluído o dia do começo). */
+function contarPrazo(inicio, n, modo) {
+  let d = inicio, cont = 0, pulados = 0;
+  if (modo === 'corridos') {
+    d = iso(addDays(fromIso(inicio), n));
+    while (naoUtil(d, false)) { d = iso(addDays(fromIso(d), 1)); pulados++; }
+    return { date: d, explica: `${n} dias corridos a partir de ${br(inicio)}, excluído o dia do começo` + (pulados ? `; vencimento prorrogado para o primeiro dia útil seguinte` : '') + '.' };
+  }
+  let guard = 0;
+  while (cont < n && guard++ < 2000) { d = iso(addDays(fromIso(d), 1)); if (!naoUtil(d, true)) cont++; else pulados++; }
+  return { date: d, explica: `${n} dias úteis a partir de ${br(inicio)}, excluído o dia do começo; ${pulados} dia(s) não útil(eis) desconsiderado(s)` +
+    (S.config.recesso ? ' (fins de semana, feriados cadastrados e recesso de 20/12 a 20/01)' : ' (fins de semana e feriados cadastrados)') + '.' };
+}
+
+/* ---------- números por extenso ---------- */
+const NUMW = { zero:0, um:1, uma:1, dois:2, duas:2, tres:3, quatro:4, cinco:5, seis:6, sete:7, oito:8, nove:9, dez:10, onze:11, doze:12, treze:13, quatorze:14, catorze:14, quinze:15, dezesseis:16, dezasseis:16, dezessete:17, dezoito:18, dezenove:19, vinte:20, trinta:30, quarenta:40, cinquenta:50, cincoenta:50, sessenta:60, setenta:70, oitenta:80, noventa:90, cem:100, cento:100, duzentos:200, trezentos:300, quatrocentos:400, quinhentos:500, seiscentos:600, setecentos:700, oitocentos:800, novecentos:900, primeiro:1 };
+const wkey = w => plain(w || '').replace(/[^a-z0-9]/g, '');
+const wpunct = w => ((w || '').match(/[.,;:!?]+$/) || [''])[0];
+function canJoin(last, v) {
+  if (last === 1000) return v < 1000;
+  if (last >= 100 && last < 1000) return v < 100;
+  if (last >= 20 && last < 100 && last % 10 === 0) return v < 10;
+  return false;
+}
+function wordsToDigits(text) {
+  const w = text.trim().split(/\s+/); const out = [];
+  let i = 0;
+  while (i < w.length) {
+    const k0 = wkey(w[i]);
+    if (!(k0 in NUMW) && k0 !== 'mil') { out.push(w[i]); i++; continue; }
+    // "primeiro" só como dia ("dia primeiro")
+    if (k0 === 'primeiro' && wkey(w[i - 1]) !== 'dia') { out.push(w[i]); i++; continue; }
+    let total = 0, group = 0, last = 0, j = i, used = 0, endP = '';
+    while (j < w.length) {
+      const k = wkey(w[j]);
+      if (k === 'mil') { total += (group || 1) * 1000; group = 0; last = 1000; }
+      else if (k in NUMW && !(k === 'primeiro' && j > i)) {
+        const v = NUMW[k];
+        if (group === 0 && (last === 0 || last === 1000)) group = v;
+        else if (canJoin(last, v)) group += v;
+        else break;
+        last = v;
+      } else break;
+      used = j - i + 1; endP = wpunct(w[j]); j++;
+      if (endP) break;
+      if (j < w.length - 1 && wkey(w[j]) === 'e') {
+        const nk = wkey(w[j + 1]);
+        if (nk === 'mil' || ((nk in NUMW) && canJoin(last, NUMW[nk]))) { j++; continue; }
+        break;
+      }
+    }
+    const nxt = wkey(w[i + 1]);
+    const article = used === 1 && (k0 === 'um' || k0 === 'uma') && !/^(mil|hora|horas|h|dia|dias|e|da)$/.test(nxt) && wkey(w[i - 1]) !== 'as';
+    if (used === 0 || article) { out.push(w[i]); i++; continue; }
+    out.push(String(total + group) + endP); i += used;
+  }
+  return out.join(' ');
+}
+
+/* ---------- vocabulário processual ---------- */
+const EVENTOS = [
+  // [frase sem acento, rótulo, tipo]
+  ['audiencia de conciliacao e julgamento','Audiência de conciliação e julgamento','Audiência'],
+  ['audiencia de conciliacao','Audiência de conciliação','Audiência'],
+  ['audiencia de mediacao','Audiência de mediação','Audiência'],
+  ['audiencia de instrucao e julgamento','Audiência de instrução e julgamento','Audiência'],
+  ['audiencia de instrucao','Audiência de instrução','Audiência'],
+  ['audiencia una','Audiência una','Audiência'],
+  ['audiencia inicial','Audiência inicial','Audiência'],
+  ['audiencia de custodia','Audiência de custódia','Audiência'],
+  ['audiencia de justificacao','Audiência de justificação','Audiência'],
+  ['audiencia preliminar','Audiência preliminar','Audiência'],
+  ['audiencia de saneamento','Audiência de saneamento','Audiência'],
+  ['audiencia de oitiva','Audiência de oitiva','Audiência'],
+  ['audiencia','Audiência','Audiência'],
+  ['sessao do juri','Sessão do Tribunal do Júri','Sessão'],
+  ['plenario do juri','Sessão do Tribunal do Júri','Sessão'],
+  ['juri','Sessão do Tribunal do Júri','Sessão'],
+  ['sessao de julgamento','Sessão de julgamento','Sessão'],
+  ['sustentacao oral','Sustentação oral','Sessão'],
+  ['pericia medica','Perícia médica','Perícia'],
+  ['pericia','Perícia','Perícia'],
+  ['resposta a acusacao','Resposta à acusação','Prazo'],
+  ['resposta ao evento','Resposta a evento','Prazo'],
+  ['resposta a evento','Resposta a evento','Prazo'],
+  ['resposta do evento','Resposta a evento','Prazo'],
+  ['defesa previa','Defesa prévia','Prazo'],
+  ['defesa','Defesa','Prazo'],
+  ['contestacao','Contestação','Prazo'],
+  ['reconvencao','Reconvenção','Prazo'],
+  ['replica','Réplica','Prazo'],
+  ['impugnacao a contestacao','Réplica (impugnação à contestação)','Prazo'],
+  ['impugnacao ao cumprimento de sentenca','Impugnação ao cumprimento de sentença','Prazo'],
+  ['impugnacao aos calculos','Impugnação aos cálculos','Prazo'],
+  ['impugnacao ao laudo','Impugnação ao laudo','Prazo'],
+  ['impugnacao','Impugnação','Prazo'],
+  ['aditamento da inicial','Aditamento da inicial','Prazo'],
+  ['aditamento da denuncia','Aditamento da denúncia','Prazo'],
+  ['aditamento','Aditamento','Prazo'],
+  ['emenda a inicial','Emenda à inicial','Prazo'],
+  ['emenda da inicial','Emenda à inicial','Prazo'],
+  ['emendar a inicial','Emenda à inicial','Prazo'],
+  ['emenda','Emenda','Prazo'],
+  ['recurso ordinario','Recurso ordinário','Prazo'],
+  ['recurso de revista','Recurso de revista','Prazo'],
+  ['recurso inominado','Recurso inominado','Prazo'],
+  ['recurso especial','Recurso especial','Prazo'],
+  ['recurso extraordinario','Recurso extraordinário','Prazo'],
+  ['recurso em sentido estrito','Recurso em sentido estrito','Prazo'],
+  ['recurso','Recurso','Prazo'],
+  ['apelacao','Apelação','Prazo'],
+  ['agravo de instrumento','Agravo de instrumento','Prazo'],
+  ['agravo de peticao','Agravo de petição','Prazo'],
+  ['agravo interno','Agravo interno','Prazo'],
+  ['agravo','Agravo','Prazo'],
+  ['embargos de declaracao','Embargos de declaração','Prazo'],
+  ['embargos a execucao','Embargos à execução','Prazo'],
+  ['embargos','Embargos','Prazo'],
+  ['contrarrazoes','Contrarrazões','Prazo'],
+  ['contra razoes','Contrarrazões','Prazo'],
+  ['alegacoes finais','Alegações finais','Prazo'],
+  ['memoriais','Memoriais','Prazo'],
+  ['razoes finais','Razões finais','Prazo'],
+  ['especificacao de provas','Especificação de provas','Prazo'],
+  ['rol de testemunhas','Rol de testemunhas','Prazo'],
+  ['quesitos','Quesitos','Prazo'],
+  ['juntada de documentos','Juntada de documentos','Prazo'],
+  ['calculos','Cálculos','Prazo'],
+  ['pagamento de custas','Pagamento de custas','Prazo'],
+  ['custas','Custas','Prazo'],
+  ['cumprimento de sentenca','Cumprimento de sentença','Prazo'],
+  ['manifestacao','Manifestação','Prazo'],
+  ['peticao inicial','Petição inicial','Prazo'],
+  ['peticao','Petição','Prazo'],
+  ['habeas corpus','Habeas corpus','Prazo'],
+  ['mandado de seguranca','Mandado de segurança','Prazo'],
+  ['cumprir despacho','Cumprimento de despacho','Prazo'],
+  ['cumprimento de diligencia','Cumprimento de diligência','Prazo'],
+  ['resposta','Resposta','Prazo'],
+  ['prazo','Prazo','Prazo'],
+  ['reuniao','Reunião','Atendimento'],
+  ['atendimento','Atendimento','Atendimento'],
+  ['consulta','Consulta','Atendimento'],
+  ['despachar com o juiz','Despacho com o juiz','Diligência'],
+  ['despacho com o juiz','Despacho com o juiz','Diligência'],
+  ['despachar','Despachar','Diligência'],
+  ['diligencia','Diligência','Diligência'],
+  ['protocolo','Protocolo','Diligência'],
+  ['protocolar','Protocolo','Diligência'],
+  ['visita','Visita','Diligência']
+].sort((a, b) => b[0].length - a[0].length);
+const EV_FIRST = new Set(EVENTOS.map(e => e[0].split(' ')[0]));
+const STOPC = new Set(['dia','ate','as','a','no','na','em','para','pra','pro','processo','proc','autos','prazo','hoje','amanha','depois','vara','juizado','turma','camara','forum','comarca','tribunal','perante','com','sobre','referente','que','numero','n','proxima','proximo','segunda','terca','quarta','quinta','sexta','sabado','domingo','horas','hora','h','evento','urgente','e','o','os','as','um','uma','sobre','junto','cliente','constituinte','das','dos'].concat(MES_P));
+const CONNECT = new Set(['da','de','do','dos','das','e','d']);
+
+/* ---------- interpretação de uma frase ---------- */
+function parseEvento(raw, origem) {
+  const T = ' ' + wordsToDigits(String(raw).replace(/\s+/g, ' ')) + ' ';
+  const P = plainAligned(T);
+  const used = new Array(T.length).fill(false);
+  const mark = (i, len) => { for (let k = i; k < i + len && k < used.length; k++) used[k] = true; };
+  const now = new Date(), hoje = today();
+  const it = { id: uid(), date: '', hora: '', cliente: '', evento: '', tipo: 'Outro', processo: '', orgao: '', obs: '', status: 'Pendente', origem: origem || 'texto', notas: [] };
+  let m;
+
+  // 1) número do processo
+  if ((m = /(?:(?:processo|autos)\s+(?:n(?:umero|o|º)?\.?\s*)?)?(\d[\d.\-\s]{13,32}\d)/.exec(P))) {
+    const dig = m[1].replace(/\D/g, '');
+    if (dig.length >= 15) {
+      it.processo = dig.length === 20 ? `${dig.slice(0,7)}-${dig.slice(7,9)}.${dig.slice(9,13)}.${dig.slice(13,14)}.${dig.slice(14,16)}.${dig.slice(16)}` : dig;
+      mark(m.index, m[0].length);
+    }
+  }
+  const sub = (re) => { re.lastIndex = 0; let x; while ((x = re.exec(P))) { if (!used[x.index + (x[0].length > 1 ? 1 : 0)]) return x; if (!re.global) break; } return null; };
+
+  // 2) horário
+  let hh = null, mm = 0;
+  if ((m = sub(/(?:^|\s)(?:as|a partir das|para as|por volta das)\s+(\d{1,2})(?:\s*(?::|h)\s*(\d{2})|\s*h(?:oras?|rs)?(?:\s+e\s+(\d{1,2}|meia)(?:\s+minutos?)?)?|\s+e\s+(\d{1,2}|meia))?(?:\s+(?:horas?\s+)?(da manha|da tarde|da noite))?(?=[\s,.;]|$)/g))) {
+    hh = +m[1]; const mi = m[2] || m[3] || m[4]; mm = mi === 'meia' ? 30 : +(mi || 0);
+    if (m[5] && m[5] !== 'da manha' && hh < 12) hh += 12;
+    else if (!m[5] && hh >= 1 && hh <= 6) hh += 12;
+    mark(m.index, m[0].length);
+  } else if ((m = sub(/(?:^|\s)(\d{1,2})(?::|h)(\d{2})?(?=[\s,.;]|$)/g))) {
+    hh = +m[1]; mm = +(m[2] || 0); mark(m.index, m[0].length);
+  } else if ((m = sub(/(?:^|\s)(?:ao\s+|as\s+)?meio[ -]dia(?:\s+e\s+meia)?/g))) {
+    hh = 12; mm = /meia$/.test(m[0]) ? 30 : 0; mark(m.index, m[0].length);
+  }
+  if (hh != null && hh < 24 && mm < 60) it.hora = pad(hh) + ':' + pad(mm);
+
+  // 3) data relativa: "em 15 dias úteis", "prazo de 5 dias corridos"
+  let rel = null;
+  if ((m = sub(/(?:^|\s)(?:(?:em|no prazo de|prazo de|dentro de|daqui a|com prazo de)\s+)?(\d{1,3})\s+dias?(?:\s+(uteis|corridos))?(?=[\s,.;]|$)/g))) {
+    rel = { n: +m[1], modo: m[2] === 'corridos' ? 'corridos' : m[2] === 'uteis' ? 'úteis' : S.config.contagem || 'úteis', explicito: !!m[2] };
+    mark(m.index, m[0].length);
+  }
+  // 4) data absoluta
+  const MES_RE = MES_P.join('|');
+  const futuro = (d, mo, y, temAno) => {
+    let c = new Date(y, mo, d, 12);
+    if (!temAno && iso(c) < hoje) c = new Date(y + 1, mo, d, 12);
+    return c.getDate() === d ? iso(c) : '';
+  };
+  let date = '';
+  if ((m = sub(new RegExp('(?:^|\\s)(?:ate\\s+(?:o\\s+)?)?(?:(?:no|para o|marcad[ao] para o)\\s+)?(?:dia\\s+)?(\\d{1,2})\\s*/\\s*(\\d{1,2})(?:\\s*/\\s*(\\d{2,4}))?(?=[\\s,.;]|$)', 'g')))) {
+    let y = m[3] ? +m[3] : now.getFullYear(); if (y < 100) y += 2000;
+    date = futuro(+m[1], +m[2] - 1, y, !!m[3]); mark(m.index, m[0].length);
+  } else if ((m = sub(new RegExp('(?:^|\\s)(?:ate\\s+(?:o\\s+)?)?(?:(?:no|para o|marcad[ao] para o)\\s+)?(?:dia\\s+)?(\\d{1,2})\\s+de\\s+(' + MES_RE + ')(?:\\s+de\\s+(\\d{4}))?(?=[\\s,.;]|$)', 'g')))) {
+    date = futuro(+m[1], MES_P.indexOf(m[2]), m[3] ? +m[3] : now.getFullYear(), !!m[3]); mark(m.index, m[0].length);
+  } else if ((m = sub(/(?:^|\s)(?:ate\s+(?:o\s+)?)?(?:(?:no|para o)\s+)?dia\s+(\d{1,2})(?=[\s,.;]|$)/g))) {
+    const d = +m[1]; let mo = now.getMonth(), y = now.getFullYear();
+    if (d < now.getDate()) { mo++; if (mo > 11) { mo = 0; y++; } }
+    const c = new Date(y, mo, d, 12); date = c.getDate() === d ? iso(c) : ''; mark(m.index, m[0].length);
+  } else if ((m = sub(/(?:^|\s)(?:ate\s+)?depois de amanha(?=[\s,.;]|$)/g))) { date = iso(addDays(now, 2)); mark(m.index, m[0].length); }
+  else if ((m = sub(/(?:^|\s)(?:ate\s+)?amanha(?=[\s,.;]|$)/g))) { date = iso(addDays(now, 1)); mark(m.index, m[0].length); }
+  else if ((m = sub(/(?:^|\s)(?:ate\s+)?hoje(?=[\s,.;]|$)/g))) { date = hoje; mark(m.index, m[0].length); }
+  else if ((m = sub(/(?:^|\s)(?:ate\s+)?(?:(?:na|no|para)\s+)?(?:(?:proxima|proximo)\s+)?(segunda|terca|quarta|quinta|sexta|sabado|domingo)(?:[- ]feira)?(?:\s+que vem)?(?=[\s,.;]|$)/g))) {
+    const alvo = ['domingo','segunda','terca','quarta','quinta','sexta','sabado'].indexOf(m[1]);
+    let d = addDays(now, 1); while (d.getDay() !== alvo) d = addDays(d, 1);
+    date = iso(d); mark(m.index, m[0].length);
+  }
+  if (date) it.date = date;
+  else if (rel) {
+    const r = contarPrazo(hoje, rel.n, rel.modo);
+    it.date = r.date; it.notas.push(r.explica + (rel.explicito ? '' : ' Modalidade de contagem não dita: usada a padrão dos Ajustes.') + ' Confira o termo inicial (intimação/publicação) e os feriados locais.');
+  }
+
+  // 5) ato processual
+  let evEnd = -1;
+  for (const [ph, label, tipo] of EVENTOS) {
+    const re = new RegExp('(?:^|\\s)' + ph.replace(/ /g, '\\s+') + '(?=[\\s,.;]|$)', 'g');
+    const x = sub(re);
+    if (x) {
+      it.evento = label; it.tipo = tipo; mark(x.index, x[0].length); evEnd = x.index + x[0].length;
+      // "resposta ao evento 32" / "evento 32"
+      const ev = /^\s*(?:n(?:umero|o|º)?\.?\s*)?(\d{1,4})(?=[\s,.;]|$)/.exec(P.slice(evEnd));
+      if (/evento$/.test(label) && ev) { it.evento += ' ' + ev[1]; mark(evEnd, ev[0].length); evEnd += ev[0].length; }
+      // complemento: "manifestação sobre o laudo", "impugnação acerca dos cálculos"
+      const q = /^\s+(sobre|acerca|quanto|referente|relativ[ao])\b/.exec(P.slice(evEnd));
+      if (q) {
+        const re = /\S+/g; re.lastIndex = evEnd; let w, ws = [];
+        while ((w = re.exec(T)) && ws.length < 6) {
+          const k = plain(w[0]).replace(/[^a-z]/g, '');
+          if (ws.length && (STOPC.has(k) && !CONNECT.has(k) && !['a','o','as','os'].includes(k) || /\d/.test(w[0]))) break;
+          ws.push(w[0].replace(/[.,;:!?]+$/, '')); mark(w.index, w[0].length);
+          if (/[.,;:!?]$/.test(w[0])) break;
+        }
+        while (ws.length && (CONNECT.has(plain(ws[ws.length - 1])) || ['a','o','as','os'].includes(plain(ws[ws.length - 1])))) ws.pop();
+        if (ws.length > 1) it.evento += ' ' + ws.join(' ');
+      }
+      break;
+    }
+  }
+  if (it.tipo === 'Outro' && (m = sub(/(?:^|\s)evento\s+(?:n(?:umero|o)?\.?\s*)?(\d{1,4})(?=[\s,.;]|$)/g))) {
+    it.evento = 'Evento ' + m[1]; it.tipo = 'Prazo'; mark(m.index, m[0].length);
+  }
+
+  // 6) órgão / vara
+  if ((m = sub(/(?:^|\s)(?:na|no|da|do|perante a|perante o)\s+((?:\d{1,2}\s*[ªºao°]?\.?\s*)?(?:vara|juizado|turma|camara|forum|comarca|tribunal|trt|tjce|trf|tst|stj|stf|cejusc|nucleo|delegacia|unidade)\b[^,;]*?)(?=\s+(?:dia|ate|as\s+\d|processo|autos|client[ea]|em\s+\d|amanha|hoje|no prazo|prazo)(?=[\s,.;]|$)|[,;]|\s*$)/g))) {
+    it.orgao = cap(T.substr(m.index + m[0].length - m[1].length, m[1].length).trim()).replace(/^(\d+)\s*a\.?\s+/i, '$1ª ').replace(/^(\d+)\s*o\.?\s+/i, '$1º ');
+    mark(m.index, m[0].length);
+  }
+
+  // 7) cliente
+  const nomeDepois = (start) => {
+    const words = []; const re = /\S+/g; re.lastIndex = start; let w;
+    while ((w = re.exec(T)) && words.length < 7) {
+      if (used[w.index]) break;
+      const raw = w[0].replace(/[.,;:!?]+$/, ''); const k = plain(raw).replace(/[^a-z]/g, '');
+      if (!k || /\d/.test(raw) || (STOPC.has(k) && !CONNECT.has(k)) || EV_FIRST.has(k)) break;
+      words.push(raw); mark(w.index, w[0].length);
+      if (/[.,;:!?]$/.test(w[0])) break;
+    }
+    while (words.length && CONNECT.has(plain(words[words.length - 1]))) words.pop();
+    return words.join(' ');
+  };
+  const titulo = s => s.split(' ').map((w, i) => CONNECT.has(plain(w)) && i > 0 ? w.toLowerCase() : (w === w.toUpperCase() && w.length > 1 ? w : cap(w.toLowerCase()))).join(' ');
+  if ((m = sub(/(?:^|\s)(?:d[oa]\s+|para\s+[oa]\s+|com\s+[oa]\s+|o\s+|a\s+)?(?:client[ea]|constituinte)\s+/g))) {
+    mark(m.index, m[0].length);
+    it.cliente = titulo(nomeDepois(m.index + m[0].length));
+  }
+  if (!it.cliente) {
+    // sequência de palavras com inicial maiúscula (o reconhecimento de voz costuma capitalizar nomes)
+    const re = /\S+/g; let w, run = [], best = [];
+    const flush = () => { while (run.length && CONNECT.has(plain(run[run.length - 1].t))) run.pop(); if (run.length > best.length) best = run.slice(); run = []; };
+    while ((w = re.exec(T))) {
+      const t = w[0].replace(/[.,;:!?]+$/, ''); const k = plain(t).replace(/[^a-z]/g, '');
+      const isCap = /^[A-ZÀ-Ý]/.test(t) && w.index > 1 && !used[w.index] && !STOPC.has(k) && !EV_FIRST.has(k);
+      if (isCap) run.push({ t, i: w.index, l: w[0].length });
+      else if (run.length && CONNECT.has(k) && !used[w.index]) run.push({ t, i: w.index, l: w[0].length });
+      else flush();
+      if (/[.,;:!?]$/.test(w[0])) flush();
+    }
+    flush();
+    if (best.length) { it.cliente = best.map(x => x.t).join(' '); best.forEach(x => mark(x.i, x.l)); }
+  }
+  if (!it.cliente && evEnd > 0 && (m = /^\s+(?:d[oa]s?|de|para\s+[oa]|pro|pra)\s+/.exec(P.slice(evEnd)))) {
+    const nome = nomeDepois(evEnd + m[0].length);
+    const k = plain(nome).split(' ')[0];
+    if (nome && nome.split(' ').length <= 5 && !['inicial','denuncia','sentenca','acordao','laudo','juiz','reu','autor','processo','contestacao'].includes(k)) {
+      it.cliente = titulo(nome); mark(evEnd, m[0].length);
+    }
+  }
+
+  // 8) evento ainda vazio: usa o restante da frase
+  if (!it.evento) {
+    let rest = ''; for (let k = 0; k < T.length; k++) rest += used[k] ? ' ' : T[k];
+    rest = rest.replace(/[,;.]+/g, ' ').split(/\s+/).filter(Boolean);
+    while (rest.length && STOPC.has(plain(rest[0]))) rest.shift();
+    while (rest.length && STOPC.has(plain(rest[rest.length - 1]))) rest.pop();
+    it.evento = cap(rest.join(' ')) || 'Compromisso';
+  }
+
+  it.obs = 'Ditado: “' + String(raw).trim() + '”';
+  if (!it.date) it.notas.push('Data não identificada: informe a data limite.');
+  if (!it.cliente) it.notas.push('Cliente não identificado: preencha o nome.');
+  if (it.date && it.date < hoje) it.notas.push('A data informada já passou.');
+  if (it.date && naoUtil(it.date, false)) it.notas.push('A data cai em dia não útil (' + (holidayName(it.date) || DSEM[fromIso(it.date).getDay()]) + ').');
+  return it;
+}
+function parseTexto(text, origem) {
+  return String(text).split(/\s*(?:;|\n|\s+e também\s+|\s+depois\s+outro\s+)\s*/i).map(s => s.trim()).filter(Boolean).map(s => parseEvento(s, origem));
+}
+
+/* ---------- estado ---------- */
+const DEF_CFG = { horaPrazo: '08:00', antecedencia: 120, contagem: 'úteis', recesso: true, emailDiario: true, email: '', feriados: [] };
+const S = {
+  settings: store.get('sj_settings', { apiUrl: '', token: '' }),
+  config: Object.assign({}, DEF_CFG, store.get('sj_config', {})),
+  items: store.get('sj_items', []),
+  google: store.get('sj_google', []),
+  pending: store.get('sj_pending', []),
+  sheetUrl: store.get('sj_sheet', ''),
+  view: 'semana', ref: today(), sel: today(), filtro: 'Pendente', busca: '', draft: [], online: null, editing: null
+};
+const saveCache = () => { store.set('sj_items', S.items); store.set('sj_pending', S.pending); store.set('sj_google', S.google); };
+
+/* ---------- backend ---------- */
+function mode() {
+  if (window.google && google.script && google.script.run) return 'gas';
+  if (S.settings.apiUrl) return 'remote';
+  return 'local';
+}
+class ApiError extends Error {}
+async function call(action, payload) {
+  const req = Object.assign({}, payload || {}, { action, token: S.settings.token });
+  const m = mode();
+  if (m === 'gas') return new Promise((res, rej) => google.script.run
+    .withSuccessHandler(r => (r && r.ok ? res(r) : rej(new ApiError((r && r.error) || 'Erro no servidor'))))
+    .withFailureHandler(e => rej(new Error((e && e.message) || e))).api(req));
+  if (m === 'remote') {
+    const r = await fetch(S.settings.apiUrl, { method: 'POST', body: JSON.stringify(req) });
+    const j = await r.json();
+    if (!j.ok) throw new ApiError(j.error || 'Erro no servidor');
+    return j;
+  }
+  return localApi(req);
+}
+function localApi(req) {
+  const db = store.get('sj_local', { items: [], config: DEF_CFG });
+  const out = { ok: true };
+  if (req.action === 'list') { out.items = db.items; out.config = db.config; out.google = []; }
+  else if (req.action === 'add') { db.items.push(...req.items); out.items = req.items; }
+  else if (req.action === 'update') { db.items = db.items.map(i => i.id === req.item.id ? Object.assign({}, i, req.item) : i); out.item = db.items.find(i => i.id === req.item.id); }
+  else if (req.action === 'delete') { db.items = db.items.filter(i => i.id !== req.id); }
+  else if (req.action === 'setConfig') { db.config = Object.assign({}, db.config, req.config); out.config = db.config; }
+  else if (req.action === 'testEmail') return Promise.reject(new ApiError('Sem planilha conectada: o e-mail diário depende do Apps Script.'));
+  store.set('sj_local', db);
+  return Promise.resolve(out);
+}
+function rangeForView() {
+  const r = fromIso(S.ref);
+  if (S.view === 'ano') return [r.getFullYear() + '-01-01', r.getFullYear() + '-12-31'];
+  const a = new Date(r.getFullYear(), r.getMonth() - 1, 1, 12), b = new Date(r.getFullYear(), r.getMonth() + 2, 0, 12);
+  return [iso(a), iso(b)];
+}
+async function load() {
+  const [from, to] = rangeForView();
+  try {
+    if (mode() !== 'local' && !S.settings.token) throw new ApiError('Informe o token em Ajustes.');
+    const r = await call('list', { from, to });
+    S.items = r.items || [];
+    S.google = r.google || [];
+    if (r.config) { S.config = Object.assign({}, DEF_CFG, r.config); store.set('sj_config', S.config); }
+    if (r.sheetUrl) { S.sheetUrl = r.sheetUrl; store.set('sj_sheet', r.sheetUrl); }
+    S.online = true; saveCache();
+    if (S.pending.length) syncPending(true);
+  } catch (e) {
+    S.online = false;
+    if (e instanceof ApiError) toast(e.message, 4000);
+  }
+  renderAll();
+}
+async function syncPending(silent) {
+  if (!S.pending.length || mode() === 'local') return;
+  const batch = S.pending.slice();
+  try {
+    const r = await call('add', { items: batch });
+    const ids = new Set(batch.map(b => b.id));
+    S.pending = S.pending.filter(p => !ids.has(p.id));
+    S.items.push(...r.items); S.online = true; saveCache(); renderAll();
+    if (!silent) toast(batch.length + ' compromisso(s) enviados à agenda');
+  } catch (e) { S.online = false; setStatus(); if (!silent) toast('Ainda sem conexão: ' + e.message, 3500); }
+}
+const allItems = () => S.items.concat(S.pending.map(p => Object.assign({ _pend: true }, p)));
+const sortIt = (a, b) => (a.date + (a.hora || '99')).localeCompare(b.date + (b.hora || '99'));
+
+function setStatus() {
+  const m = mode(), n = S.pending.length;
+  let t = m === 'local' ? 'Modo local — conecte o Google em Ajustes' : S.online === false ? 'Sem conexão com o Google' : 'Sincronizado com Google Agenda e Drive';
+  if (n) t += ' · ' + n + ' pendente' + (n > 1 ? 's' : '');
+  $('#status').textContent = t;
+  $('#pendInfo').textContent = n ? n + ' compromisso(s) aguardando envio.' : 'Nenhum envio pendente.';
+}
+
+/* ---------- formulário (prévia e edição) ---------- */
+function formHtml(it, i) {
+  const conflitos = conflitosDe(it);
+  return `<div class="form" data-i="${i}">
+    <div class="g2"><div><label>Cliente</label><input type="text" data-k="cliente" value="${esc(it.cliente)}" placeholder="Nome do cliente"></div>
+      <div><label>Tipo</label><select data-k="tipo">${TIPOS.map(t => `<option ${t === it.tipo ? 'selected' : ''}>${t}</option>`).join('')}</select></div></div>
+    <label>Ato / evento processual</label><input type="text" data-k="evento" value="${esc(it.evento)}">
+    <div class="g2"><div><label>Data (limite ou do ato)</label><input type="date" data-k="date" value="${esc(it.date)}"></div>
+      <div><label>Hora ${it.tipo === 'Prazo' ? '(opcional)' : ''}</label><input type="time" data-k="hora" value="${esc(it.hora)}"></div></div>
+    <div class="calc"><div><label>Prazo</label><input type="number" min="1" data-calc="n" placeholder="dias"></div>
+      <div><label>Contagem a partir de</label><input type="date" data-calc="ini" value="${today()}"></div>
+      <div class="row"><select data-calc="modo"><option value="úteis" ${S.config.contagem === 'úteis' ? 'selected' : ''}>úteis</option><option value="corridos" ${S.config.contagem === 'corridos' ? 'selected' : ''}>corridos</option></select><button class="btn sm" data-calcbtn>Calcular data</button></div></div>
+    <div class="g2"><div><label>Processo</label><input type="text" data-k="processo" value="${esc(it.processo)}" placeholder="0000000-00.0000.0.00.0000"></div>
+      <div><label>Órgão / vara</label><input type="text" data-k="orgao" value="${esc(it.orgao)}"></div></div>
+    <label>Observações</label><input type="text" data-k="obs" value="${esc(it.obs)}">
+    ${(it.notas || []).map(n => `<div class="note ${/^(Data não|Cliente não|A data)/.test(n) ? 'w' : ''}">${esc(n)}</div>`).join('')}
+    ${conflitos.length ? `<div class="note w">Conflito de horário: ${conflitos.map(c => esc((c.hora ? c.hora + ' ' : '') + (c.title || c.evento + (c.cliente ? ' — ' + c.cliente : '')))).join('; ')}</div>` : ''}
+  </div>`;
+}
+function conflitosDe(it) {
+  if (!it.date || !it.hora) return [];
+  const toMin = h => { const p = h.split(':').map(Number); return p[0] * 60 + p[1]; };
+  const t = toMin(it.hora);
+  const own = allItems().filter(x => x.id !== it.id && x.date === it.date && x.hora && x.status !== 'Concluído' && Math.abs(toMin(x.hora) - t) < 60);
+  const g = S.google.filter(x => x.date === it.date && x.hora && (Math.abs(toMin(x.hora) - t) < 60 || (x.fim && toMin(x.hora) <= t && toMin(x.fim) > t)));
+  return own.concat(g);
+}
+function bindForm(container, getItem, rerender) {
+  container.addEventListener('input', e => {
+    const f = e.target.closest('.form'); const k = e.target.dataset.k; if (!f || !k) return;
+    const it = getItem(+f.dataset.i); it[k] = e.target.value;
+  });
+  container.addEventListener('change', e => {
+    const k = e.target.dataset.k; if (k === 'date' || k === 'hora' || k === 'tipo') {
+      const f = e.target.closest('.form'); const it = getItem(+f.dataset.i);
+      it.notas = (it.notas || []).filter(n => !/dia não útil|já passou/.test(n));
+      if (it.date && naoUtil(it.date, false)) it.notas.push('A data cai em dia não útil (' + (holidayName(it.date) || DSEM[fromIso(it.date).getDay()]) + ').');
+      if (it.date && it.date < today()) it.notas.push('A data informada já passou.');
+      rerender();
+    }
+  });
+  container.addEventListener('click', e => {
+    const b = e.target.closest('[data-calcbtn]'); if (!b) return;
+    const f = b.closest('.form'); const it = getItem(+f.dataset.i);
+    const n = +f.querySelector('[data-calc=n]').value, ini = f.querySelector('[data-calc=ini]').value, modo = f.querySelector('[data-calc=modo]').value;
+    if (!n || !ini) { toast('Informe o número de dias e a data de início'); return; }
+    const r = contarPrazo(ini, n, modo);
+    it.date = r.date; it.notas = (it.notas || []).filter(x => !/dias (úteis|corridos) a partir|Data não identificada/.test(x)); it.notas.unshift(r.explica + ' Confira os feriados locais.');
+    rerender();
+  });
+}
+
+/* ---------- registrar ---------- */
+function renderPreview() {
+  $('#previewBox').style.display = S.draft.length ? 'block' : 'none';
+  $('#preview').innerHTML = S.draft.map((it, i) => `<div class="pv"><div class="row"><span class="tag bt-${it.tipo}">${it.tipo}</span><span class="small muted">${it.origem === 'voz' ? 'por voz' : 'digitado'}</span><span class="grow"></span><button class="btn ghost sm danger" data-rm="${i}">remover</button></div>${formHtml(it, i)}</div>`).join('');
+}
+bindForm($('#preview'), i => S.draft[i], renderPreview);
+$('#preview').addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if (b) { S.draft.splice(+b.dataset.rm, 1); renderPreview(); } });
+function interpret(text, origem) {
+  const items = parseTexto(text, origem);
+  if (!items.length) { toast('Não consegui interpretar. Tente: “contestação cliente João dia 20”.', 3500); return; }
+  S.draft.push(...items); renderPreview();
+  $('#previewBox').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+$('#btnInterpretar').onclick = () => { const t = $('#entrada').value.trim(); if (t) { interpret(t, 'texto'); $('#entrada').value = ''; } };
+$('#btnManual').onclick = () => { S.draft.push({ id: uid(), date: '', hora: '', cliente: '', evento: '', tipo: 'Prazo', processo: '', orgao: '', obs: '', status: 'Pendente', origem: 'texto', notas: [] }); renderPreview(); };
+$('#btnDescartar').onclick = () => { S.draft = []; renderPreview(); };
+const clean = it => { const o = Object.assign({}, it); delete o.notas; delete o._pend; return o; };
+$('#btnSalvar').onclick = async () => {
+  const falta = S.draft.find(it => !it.date || !it.evento);
+  if (falta) { toast('Há compromisso sem data ou sem ato processual.'); return; }
+  const items = S.draft.map(clean);
+  const btn = $('#btnSalvar'); btn.disabled = true; btn.textContent = 'Salvando…';
+  try {
+    const r = await call('add', { items });
+    S.items.push(...r.items); S.online = true;
+    toast(mode() === 'local' ? 'Salvo neste aparelho' : (items.length > 1 ? items.length + ' compromissos agendados' : 'Agendado no Google Agenda e na planilha'));
+  } catch (e) {
+    if (e instanceof ApiError) { toast(e.message, 4000); btn.disabled = false; btn.textContent = 'Salvar na agenda'; return; }
+    S.pending.push(...items); S.online = false;
+    toast('Sem conexão: guardado no aparelho e será enviado depois', 3500);
+  }
+  saveCache(); S.draft = []; btn.disabled = false; btn.textContent = 'Salvar na agenda';
+  renderAll();
+};
+
+/* microfone */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null, listening = false, finalText = '';
+function micFallback(msg) { $('#micHint').innerHTML = esc(msg) + ' Toque no campo abaixo e use o <b>microfone do teclado</b> para ditar.'; $('#entrada').focus(); }
+$('#btnMic').onclick = () => {
+  if (!SR) { micFallback('Este navegador não oferece reconhecimento de voz direto.'); return; }
+  if (listening) { rec && rec.stop(); return; }
+  rec = new SR(); rec.lang = 'pt-BR'; rec.interimResults = true; rec.continuous = false;
+  finalText = '';
+  rec.onstart = () => { listening = true; $('#btnMic').classList.add('listening'); $('#micHint').textContent = 'Ouvindo… diga cliente, ato e data'; };
+  rec.onresult = ev => {
+    let interim = '';
+    for (let i = ev.resultIndex; i < ev.results.length; i++) { if (ev.results[i].isFinal) finalText += ev.results[i][0].transcript + ' '; else interim += ev.results[i][0].transcript; }
+    $('#interim').textContent = (finalText + interim).trim();
+  };
+  rec.onerror = ev => {
+    if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') micFallback('Microfone bloqueado neste modo.');
+    else if (ev.error === 'no-speech') $('#micHint').textContent = 'Não ouvi nada. Toque e tente de novo.';
+    else if (ev.error === 'network') micFallback('O reconhecimento de voz precisa de internet.');
+    else $('#micHint').textContent = 'Erro no microfone: ' + ev.error;
+  };
+  rec.onend = () => {
+    listening = false; $('#btnMic').classList.remove('listening');
+    const t = finalText.trim();
+    if (t) { $('#micHint').textContent = 'Entendi: “' + t + '”'; $('#interim').textContent = ''; interpret(t, 'voz'); }
+    else if (/Ouvindo/.test($('#micHint').textContent)) $('#micHint').textContent = 'Toque e fale: cliente, ato processual e data';
+  };
+  try { rec.start(); } catch (e) { micFallback('Não foi possível iniciar o microfone.'); }
+};
+
+/* ---------- cartões de evento ---------- */
+function prazoTxt(d) {
+  const n = daysBetween(today(), d);
+  if (n < 0) return `<span class="c-crit">venceu há ${-n} dia${n < -1 ? 's' : ''}</span>`;
+  if (n === 0) return '<span class="c-alert">hoje</span>';
+  if (n === 1) return '<span class="c-warn">amanhã</span>';
+  return `em ${n} dias`;
+}
+function evCard(it, opts) {
+  opts = opts || {};
+  if (it._g) return `<div class="ev g bl-Google"><div class="h">${it.hora || 'dia'}</div><div class="d"><b>${esc(it.title)}</b><span class="small muted">Google Agenda (principal)${it.fim ? ' · até ' + it.fim : ''}</span></div></div>`;
+  const done = it.status === 'Concluído';
+  return `<div class="ev bl-${it.tipo} ${done ? 'done' : ''}">
+    <div class="h">${opts.showDate ? br(it.date).slice(0, 5) + '<br>' : ''}${it.hora || (it.tipo === 'Prazo' ? 'prazo' : '—')}</div>
+    <div class="d"><b>${esc(it.evento)}${it.cliente ? ' — ' + esc(it.cliente) : ''}</b>
+      <span class="small muted"><span class="tag bt-${it.tipo}">${it.tipo}</span> ${it.processo ? esc(it.processo) + ' · ' : ''}${it.orgao ? esc(it.orgao) + ' · ' : ''}${done ? 'concluído' : prazoTxt(it.date)}${it._pend ? ' · <span class="c-warn">envio pendente</span>' : ''}</span>
+      ${opts.acts === false ? '' : `<div class="acts">
+        <button class="btn sm" data-act="toggle" data-id="${esc(it.id)}">${done ? 'Reabrir' : 'Concluir'}</button>
+        <button class="btn sm" data-act="edit" data-id="${esc(it.id)}">Editar</button>
+        ${mode() === 'local' ? `<a class="btn sm" target="_blank" rel="noopener" href="${gcalLink(it)}">Google Agenda</a>` : ''}
+        <button class="btn sm danger" data-act="del" data-id="${esc(it.id)}">Excluir</button></div>`}
+    </div></div>`;
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const id = b.dataset.id; const it = allItems().find(x => x.id === id); if (!it) return;
+  if (b.dataset.act === 'edit') { openEdit(it); return; }
+  if (b.dataset.act === 'del') {
+    if (!b.classList.contains('armed')) { b.classList.add('armed'); b.textContent = 'Confirmar exclusão'; setTimeout(() => { b.classList.remove('armed'); b.textContent = 'Excluir'; }, 3500); return; }
+    if (it._pend) { S.pending = S.pending.filter(p => p.id !== id); saveCache(); renderAll(); return; }
+    try { await call('delete', { id }); S.items = S.items.filter(x => x.id !== id); saveCache(); renderAll(); toast('Excluído da planilha e do Google Agenda'); }
+    catch (err) { toast('Não foi possível excluir: ' + err.message, 3500); }
+    return;
+  }
+  if (b.dataset.act === 'toggle') {
+    const novo = it.status === 'Concluído' ? 'Pendente' : 'Concluído';
+    if (it._pend) { it.status = novo; S.pending = S.pending.map(p => p.id === id ? Object.assign(p, { status: novo }) : p); saveCache(); renderAll(); return; }
+    try { const r = await call('update', { item: { id, status: novo } }); S.items = S.items.map(x => x.id === id ? Object.assign({}, x, r.item || { status: novo }) : x); saveCache(); renderAll(); toast(novo === 'Concluído' ? 'Marcado como concluído; lembretes desligados' : 'Reaberto; lembretes religados'); }
+    catch (err) { toast('Não foi possível atualizar: ' + err.message, 3500); }
+  }
+});
+
+/* edição */
+function openEdit(it) {
+  S.editing = Object.assign({ notas: [] }, it);
+  const render = () => { $('#editForm').innerHTML = formHtml(S.editing, 0); };
+  render(); $('#sheet').classList.add('on');
+  $('#editForm').__render = render;
+}
+bindForm($('#editForm'), () => S.editing, () => $('#editForm').__render && $('#editForm').__render());
+$('#btnEditCancel').onclick = () => $('#sheet').classList.remove('on');
+$('#sheet').onclick = e => { if (e.target.id === 'sheet') $('#sheet').classList.remove('on'); };
+$('#btnEditSave').onclick = async () => {
+  const it = clean(S.editing);
+  if (!it.date || !it.evento) { toast('Informe data e ato processual'); return; }
+  if (S.pending.some(p => p.id === it.id)) { S.pending = S.pending.map(p => p.id === it.id ? it : p); saveCache(); $('#sheet').classList.remove('on'); renderAll(); return; }
+  try { const r = await call('update', { item: it }); S.items = S.items.map(x => x.id === it.id ? Object.assign({}, x, r.item || it) : x); saveCache(); $('#sheet').classList.remove('on'); renderAll(); toast('Alterações salvas'); }
+  catch (err) { toast('Não foi possível salvar: ' + err.message, 3500); }
+};
+
+/* ---------- alertas (início) ---------- */
+function renderAlertas() {
+  const pend = allItems().filter(i => i.status !== 'Concluído').sort(sortIt);
+  const h = today(), a1 = iso(addDays(new Date(), 1)), a2 = iso(addDays(new Date(), 2)), a7 = iso(addDays(new Date(), 7));
+  const grupos = [
+    ['Atrasados', pend.filter(i => i.date < h), 'c-crit'],
+    ['Hoje', pend.filter(i => i.date === h), 'c-alert'],
+    ['Amanhã', pend.filter(i => i.date === a1), 'c-warn'],
+    ['Em 2 dias', pend.filter(i => i.date === a2), 'c-brand'],
+    ['Próximos 7 dias', pend.filter(i => i.date > a2 && i.date <= a7), 'muted']
+  ];
+  const urg = grupos[0][1].length + grupos[1][1].length + grupos[2][1].length;
+  const badge = $('#badge'); badge.textContent = urg; badge.style.display = urg ? 'block' : 'none';
+  const html = grupos.filter(g => g[1].length).map(g => `<div class="grp ${g[2]}">${g[0]} <span class="n">${g[1].length}</span></div>` + g[1].map(i => evCard(i, { showDate: g[0] === 'Atrasados' || g[0] === 'Próximos 7 dias' })).join('')).join('');
+  $('#alertas').innerHTML = html || '<div class="empty">Nenhum prazo ou audiência nos próximos 7 dias.</div>';
+}
+
+/* ---------- agenda: semana / mês / ano ---------- */
+function dayItems(d) {
+  const own = allItems().filter(i => i.date === d).sort(sortIt);
+  const g = S.google.filter(x => x.date === d).map(x => Object.assign({ _g: true }, x));
+  return own.concat(g).sort((a, b) => (a.hora || '00').localeCompare(b.hora || '00'));
+}
+function renderLegend() {
+  $('#legend').innerHTML = TIPOS.concat(mode() === 'local' ? [] : ['Google']).map(t => `<span class="tag bt-${t}">${t === 'Google' ? 'Google Agenda' : t}</span>`).join('');
+}
+function renderAgenda() {
+  $$('#seg button').forEach(b => b.classList.toggle('on', b.dataset.v === S.view));
+  const r = fromIso(S.ref); const el = $('#agenda');
+  if (S.view === 'semana') {
+    const ini = addDays(r, -((r.getDay() + 6) % 7));
+    $('#navLabel').textContent = 'Semana de ' + br(iso(ini)).slice(0, 5) + ' a ' + br(iso(addDays(ini, 6))).slice(0, 5);
+    el.innerHTML = [...Array(7)].map((_, k) => {
+      const d = iso(addDays(ini, k)); const its = dayItems(d); const hol = holidayName(d);
+      return `<div class="day"><div class="dh ${d === today() ? 'today' : ''}"><span>${longDate(d)}${hol ? ' · <span class="c-crit">' + esc(hol) + '</span>' : ''}</span><span>${its.length ? its.length : ''}</span></div>${its.map(i => evCard(i)).join('') || '<div class="small muted" style="padding:0 4px 4px">—</div>'}</div>`;
+    }).join('');
+  } else if (S.view === 'mes') {
+    const y = r.getFullYear(), mo = r.getMonth();
+    $('#navLabel').textContent = cap(MESES[mo]) + ' ' + y;
+    const first = new Date(y, mo, 1, 12); const start = addDays(first, -((first.getDay() + 6) % 7));
+    let cells = ['seg','ter','qua','qui','sex','sáb','dom'].map(w => `<div class="wd">${w}</div>`).join('');
+    for (let k = 0; k < 42; k++) {
+      const dd = addDays(start, k); const d = iso(dd); if (k >= 35 && dd.getMonth() !== mo) break;
+      const its = dayItems(d);
+      cells += `<div class="cell ${dd.getMonth() !== mo ? 'out' : ''} ${d === today() ? 'today' : ''} ${d === S.sel ? 'sel' : ''} ${holidayName(d) ? 'hol' : ''}" data-day="${d}"><span class="n">${dd.getDate()}</span><span class="dots">${its.slice(0, 6).map(i => `<i class="bt-${i._g ? 'Google' : i.tipo}"></i>`).join('')}</span></div>`;
+    }
+    const sel = dayItems(S.sel); const hol = holidayName(S.sel);
+    el.innerHTML = `<div class="grid">${cells}</div><div class="day"><div class="dh"><span><b>${longDate(S.sel)}</b>${hol ? ' · <span class="c-crit">' + esc(hol) + '</span>' : ''}</span></div>${sel.map(i => evCard(i)).join('') || '<div class="empty">Nada neste dia.</div>'}</div>`;
+  } else {
+    const y = r.getFullYear();
+    $('#navLabel').textContent = 'Ano ' + y;
+    const its = allItems().filter(i => i.date.startsWith(y + '-'));
+    el.innerHTML = '<div class="year">' + MESES.map((mn, k) => {
+      const ym = y + '-' + pad(k + 1); const list = its.filter(i => i.date.startsWith(ym));
+      const pend = list.filter(i => i.status !== 'Concluído').length;
+      const segs = TIPOS.map(t => [t, list.filter(i => i.tipo === t).length]).filter(x => x[1]);
+      return `<div class="mcard ${ym === today().slice(0, 7) ? 'cur' : ''}" data-month="${ym}"><b>${cap(mn.slice(0, 3))}</b><div class="big">${list.length}</div><div class="small muted">${pend} pendente${pend === 1 ? '' : 's'}</div>
+        <div class="bar">${segs.map(([t, n]) => `<span class="bt-${t}" style="width:${n / list.length * 100}%"></span>`).join('')}</div></div>`;
+    }).join('') + '</div>' +
+    `<div class="card" style="margin-top:12px"><h2>Totais de ${y}</h2>${TIPOS.map(t => [t, its.filter(i => i.tipo === t).length]).filter(x => x[1]).map(([t, n]) => `<div class="row small" style="margin:4px 0"><span class="tag bt-${t}">${t}</span><span class="grow"></span><b>${n}</b></div>`).join('') || '<p class="muted small">Sem registros no ano.</p>'}</div>`;
+  }
+}
+$('#agenda').addEventListener('click', e => {
+  const c = e.target.closest('[data-day]'); if (c) { S.sel = c.dataset.day; renderAgenda(); return; }
+  const m = e.target.closest('[data-month]'); if (m) { S.view = 'mes'; S.ref = m.dataset.month + '-01'; S.sel = S.ref; renderAgenda(); load(); }
+});
+$('#seg').onclick = e => { const b = e.target.closest('[data-v]'); if (!b) return; S.view = b.dataset.v; renderAgenda(); load(); };
+$$('[data-nav]').forEach(b => b.onclick = () => {
+  const n = +b.dataset.nav, r = fromIso(S.ref);
+  if (S.view === 'semana') S.ref = iso(addDays(r, 7 * n));
+  else if (S.view === 'mes') { S.ref = iso(new Date(r.getFullYear(), r.getMonth() + n, 1, 12)); S.sel = S.ref; }
+  else S.ref = iso(new Date(r.getFullYear() + n, 0, 1, 12));
+  renderAgenda(); load();
+});
+
+/* ---------- lista ---------- */
+function renderLista() {
+  const q = plain(S.busca);
+  const list = allItems().filter(i => (S.filtro === 'todos' || i.status === S.filtro) && (!q || plain([i.cliente, i.evento, i.processo, i.orgao].join(' ')).includes(q)))
+    .sort(S.filtro === 'Concluído' ? (a, b) => sortIt(b, a) : sortIt);
+  if (!list.length) { $('#lista').innerHTML = '<div class="empty">Nenhum compromisso encontrado.</div>'; return; }
+  let html = '', cur = '';
+  for (const i of list) {
+    const ym = i.date.slice(0, 7);
+    if (ym !== cur) { cur = ym; html += `<div class="grp">${cap(MESES[+ym.slice(5) - 1])} ${ym.slice(0, 4)}</div>`; }
+    html += evCard(i, { showDate: true });
+  }
+  $('#lista').innerHTML = html;
+}
+$('#busca').oninput = e => { S.busca = e.target.value; renderLista(); };
+$('#chips').onclick = e => { const c = e.target.closest('[data-f]'); if (!c) return; S.filtro = c.dataset.f; $$('#chips .chip').forEach(x => x.classList.toggle('on', x === c)); renderLista(); };
+
+/* ---------- exportações ---------- */
+function gcalLink(it) {
+  const h = (it.hora || S.config.horaPrazo || '08:00').replace(':', '');
+  const st = it.date.replace(/-/g, '') + 'T' + h + '00';
+  const dur = it.tipo === 'Audiência' ? 60 : 30;
+  const p = (it.hora || S.config.horaPrazo || '08:00').split(':').map(Number); const e = new Date(2000, 0, 1, p[0], p[1] + dur);
+  const en = it.date.replace(/-/g, '') + 'T' + pad(e.getHours()) + pad(e.getMinutes()) + '00';
+  const q = new URLSearchParams({ action: 'TEMPLATE', text: it.evento + (it.cliente ? ' — ' + it.cliente : ''), dates: st + '/' + en, ctz: 'America/Fortaleza',
+    details: [it.processo && 'Processo: ' + it.processo, it.obs].filter(Boolean).join('\n'), location: it.orgao || '' });
+  return 'https://calendar.google.com/calendar/render?' + q.toString();
+}
+function download(name, content, type) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([content], { type })); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+$('#btnICS').onclick = () => {
+  const icsEsc = s => String(s || '').replace(/\\/g, '\\\\').replace(/[,;]/g, m => '\\' + m).replace(/\n/g, '\\n');
+  const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
+  const evs = allItems().filter(i => i.status !== 'Concluído' && i.date >= today()).map(i => {
+    const hora = i.hora || S.config.horaPrazo || '08:00'; const p = hora.split(':').map(Number);
+    const dur = i.tipo === 'Audiência' ? 60 : 30; const e = new Date(2000, 0, 1, p[0], p[1] + dur);
+    const d = i.date.replace(/-/g, '');
+    const noDia = i.hora ? Math.min(+S.config.antecedencia || 120, p[0] * 60 + p[1] - 1) : 0;
+    const alarm = t => `BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${icsEsc(i.evento)}\r\nTRIGGER:${t}\r\nEND:VALARM`;
+    return ['BEGIN:VEVENT', 'UID:' + i.id + '@secretario-juridico', 'DTSTAMP:' + stamp,
+      'DTSTART;TZID=America/Fortaleza:' + d + 'T' + pad(p[0]) + pad(p[1]) + '00',
+      'DTEND;TZID=America/Fortaleza:' + d + 'T' + pad(e.getHours()) + pad(e.getMinutes()) + '00',
+      'SUMMARY:' + icsEsc(i.evento + (i.cliente ? ' — ' + i.cliente : '')),
+      'DESCRIPTION:' + icsEsc([i.processo && 'Processo: ' + i.processo, i.orgao && 'Órgão: ' + i.orgao, i.obs].filter(Boolean).join('\n')),
+      'LOCATION:' + icsEsc(i.orgao), alarm('-P2D'), alarm('-P1D'), alarm(noDia ? '-PT' + noDia + 'M' : 'PT0M'), 'END:VEVENT'].join('\r\n');
+  });
+  if (!evs.length) { toast('Não há compromissos futuros pendentes'); return; }
+  download('agenda-juridica.ics', ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Secretario Juridico//PT-BR', 'CALSCALE:GREGORIAN'].concat(evs, ['END:VCALENDAR']).join('\r\n'), 'text/calendar');
+};
+$('#btnCSV').onclick = () => {
+  const rows = [['Data', 'Hora', 'Cliente', 'Evento', 'Tipo', 'Processo', 'Órgão/Vara', 'Status', 'Observações']]
+    .concat(allItems().sort(sortIt).map(i => [br(i.date), i.hora, i.cliente, i.evento, i.tipo, i.processo, i.orgao, i.status, i.obs]));
+  download('agenda-juridica.csv', '﻿' + rows.map(r => r.map(x => '"' + String(x || '').replace(/"/g, '""') + '"').join(';')).join('\r\n'), 'text/csv');
+};
+
+/* ---------- ajustes ---------- */
+function renderAjustes() {
+  const m = mode();
+  $('#connFields').style.display = m === 'gas' ? 'none' : 'block';
+  $('#connInfo').innerHTML = m === 'gas' ? 'Aberto pelo próprio Apps Script: informe só o token.'
+    : m === 'local' ? 'Sem conexão com o Google: os compromissos ficam só neste aparelho e não geram lembretes automáticos. Use o botão “Google Agenda” de cada item ou exporte o arquivo .ics até concluir a instalação.'
+    : 'Ligado ao Apps Script: cada compromisso vai para a planilha e para a agenda “Prazos e Audiências”.';
+  $('#apiUrl').value = S.settings.apiUrl || ''; $('#token').value = S.settings.token || '';
+  const l = $('#lnkPlanilha'); if (S.sheetUrl) { l.href = S.sheetUrl; l.style.display = ''; } else l.style.display = 'none';
+  const c = S.config;
+  $('#cfgHora').value = c.horaPrazo || '08:00'; $('#cfgAnt').value = c.antecedencia || 120; $('#cfgCont').value = c.contagem || 'úteis';
+  $('#cfgRec').checked = !!c.recesso; $('#cfgMail').checked = !!c.emailDiario; $('#cfgEmail').value = c.email || '';
+}
+$('#btnConectar').onclick = async () => {
+  S.settings.apiUrl = $('#apiUrl').value.trim(); S.settings.token = $('#token').value.trim();
+  store.set('sj_settings', S.settings);
+  if (mode() === 'local') { toast('Sem URL: o app segue em modo local.'); renderAll(); return; }
+  try { const r = await call('ping'); S.sheetUrl = r.sheetUrl; store.set('sj_sheet', r.sheetUrl); S.online = true; toast('Conectado'); renderAjustes(); await load(); }
+  catch (e) { S.online = false; setStatus(); toast('Falha na conexão: ' + e.message, 4500); }
+};
+$('#btnCfg').onclick = async () => {
+  const cfg = { horaPrazo: $('#cfgHora').value || '08:00', antecedencia: +$('#cfgAnt').value || 120, contagem: $('#cfgCont').value,
+    recesso: $('#cfgRec').checked, emailDiario: $('#cfgMail').checked, email: $('#cfgEmail').value.trim() };
+  S.config = Object.assign({}, S.config, cfg); store.set('sj_config', S.config);
+  try { const r = await call('setConfig', { config: cfg }); if (r.config) S.config = Object.assign({}, DEF_CFG, r.config); toast('Ajustes salvos'); }
+  catch (e) { toast('Salvo só no aparelho: ' + e.message, 3500); }
+  renderAll();
+};
+$('#btnTestMail').onclick = async () => { try { await call('testEmail'); toast('E-mail de teste enviado'); } catch (e) { toast(e.message, 4000); } };
+$('#btnPend').onclick = () => syncPending(false);
+$('#btnSync').onclick = async () => { toast('Atualizando…'); await syncPending(true); await load(); };
+window.addEventListener('online', () => syncPending(true));
+
+$$('nav.bottom button').forEach(b => b.onclick = () => {
+  $$('nav.bottom button').forEach(x => x.classList.toggle('on', x === b));
+  $$('.tab').forEach(t => t.classList.toggle('on', t.id === 'tab-' + b.dataset.tab));
+  if (b.dataset.tab === 'ajustes') renderAjustes();
+  window.scrollTo(0, 0);
+});
+
+function renderAll() { setStatus(); renderLegend(); renderAlertas(); renderAgenda(); renderLista(); }
+
+if ('serviceWorker' in navigator && location.protocol === 'https:' && mode() !== 'gas') navigator.serviceWorker.register('sw.js').catch(() => {});
+renderAll();
+load();
+</script>
+</body>
+</html>
