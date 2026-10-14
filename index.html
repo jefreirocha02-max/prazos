@@ -123,6 +123,18 @@ nav.bottom .badge{position:absolute;top:2px;left:calc(50% + 6px);background:var(
 .toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:#1c2633;color:#fff;padding:10px 16px;border-radius:12px;font-size:13.5px;max-width:92vw;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
 .toast.on{opacity:1}
 .empty{text-align:center;color:var(--muted);padding:20px 10px}
+.pu{padding:12px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--t-out);border-radius:12px;margin-bottom:8px}
+.pu.u-Alta{border-left-color:var(--crit)} .pu.u-Média{border-left-color:var(--warn)}
+.pu.lido{opacity:.62}
+.pu .top{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.pu b{display:block;margin:4px 0 2px;font-weight:620;overflow-wrap:anywhere}
+.pu .tx{font-size:13px;color:var(--muted);white-space:pre-line;max-height:4.2em;overflow:hidden;overflow-wrap:anywhere}
+.pu.open .tx{max-height:none}
+.pu .acts{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.ut{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;color:#fff;font-weight:650}
+.ut-Alta{background:var(--crit)} .ut-Média{background:var(--warn)} .ut-Baixa{background:var(--t-out)}
+.banner{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:rgba(201,42,42,.10);margin-bottom:8px;cursor:pointer}
+.banner b{color:var(--crit)}
 .sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;display:none;align-items:flex-end;justify-content:center}
 .sheet.on{display:flex}
 .sheet .box{background:var(--card);width:100%;max-width:680px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
@@ -208,6 +220,19 @@ details summary{cursor:pointer;color:var(--muted);font-size:13px}
     <div id="agenda"></div>
   </section>
 
+  <!-- PUSH -->
+  <section class="tab" id="tab-push">
+    <div class="card" id="pushHead"></div>
+    <div class="chips" id="pchips">
+      <button class="chip on" data-pf="nl">Não lidas</button>
+      <button class="chip" data-pf="alta">Urgentes</button>
+      <button class="chip" data-pf="todas">Todas</button>
+    </div>
+    <input type="search" id="pbusca" placeholder="Buscar por processo, cliente ou texto">
+    <div style="height:10px"></div>
+    <div id="pushList"></div>
+  </section>
+
   <!-- LISTA -->
   <section class="tab" id="tab-lista">
     <input type="search" id="busca" placeholder="Buscar por cliente, processo ou ato">
@@ -234,6 +259,10 @@ details summary{cursor:pointer;color:var(--muted);font-size:13px}
         <button class="btn primary grow" id="btnConectar">Salvar e testar</button>
         <a class="btn" id="lnkPlanilha" target="_blank" rel="noopener" style="display:none">Abrir planilha</a>
       </div>
+      <div id="migraBox" class="note w" style="display:none;margin-top:12px">
+        <div id="migraTxt"></div>
+        <button class="btn primary" id="btnMigrar" style="margin-top:8px;width:100%">Enviar para a planilha e o Google Agenda</button>
+      </div>
     </div>
 
     <div class="card">
@@ -256,6 +285,15 @@ details summary{cursor:pointer;color:var(--muted);font-size:13px}
     </div>
 
     <div class="card">
+      <h2>Alertas de push processual</h2>
+      <div id="pushInfo" class="small muted"></div>
+      <div class="row wrap" style="margin-top:10px">
+        <button class="btn" id="btnPushTest">Enviar alerta de teste</button>
+      </div>
+      <p class="small muted">O leitor roda no Google todos os dias por volta das 12h e das 18h, mesmo com o celular desligado. As configurações (filtro do Gmail, tópico do ntfy, alarme de silêncio) ficam na aba <b>Config</b> da planilha, linhas 10 a 16.</p>
+    </div>
+
+    <div class="card">
       <h2>Exportar</h2>
       <div class="row wrap">
         <button class="btn" id="btnICS">Arquivo de agenda (.ics)</button>
@@ -270,6 +308,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:13px}
 <nav class="bottom">
   <button class="on" data-tab="inicio"><span class="badge" id="badge"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/></svg>Início</button>
   <button data-tab="agenda"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Agenda</button>
+  <button data-tab="push"><span class="badge" id="badgePush"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Push</button>
   <button data-tab="lista"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Lista</button>
   <button data-tab="ajustes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1 12h3M20 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Ajustes</button>
 </nav>
@@ -672,6 +711,7 @@ const S = {
   google: store.get('sj_google', []),
   pending: store.get('sj_pending', []),
   sheetUrl: store.get('sj_sheet', ''),
+  push: store.get('sj_push', []), pushAtivo: store.get('sj_push_ativo', false), pf: 'nl', pbusca: '',
   view: 'semana', ref: today(), sel: today(), filtro: 'Pendente', busca: '', draft: [], online: null, editing: null
 };
 const saveCache = () => { store.set('sj_items', S.items); store.set('sj_pending', S.pending); store.set('sj_google', S.google); };
@@ -726,6 +766,11 @@ async function load() {
     if (r.sheetUrl) { S.sheetUrl = r.sheetUrl; store.set('sj_sheet', r.sheetUrl); }
     S.online = true; saveCache();
     if (S.pending.length) syncPending(true);
+    if (mode() !== 'local' && locaisNaoEnviados().length) toast('Há compromissos salvos só neste aparelho: envie-os em Ajustes.', 5000);
+    if (mode() !== 'local') {
+      try { const p = await call('pushList', { limite: 300 }); S.push = p.push || []; S.pushAtivo = !!p.ativo; store.set('sj_push', S.push); store.set('sj_push_ativo', S.pushAtivo); }
+      catch (e) { /* backend sem o Push.gs */ }
+    }
   } catch (e) {
     S.online = false;
     if (e instanceof ApiError) toast(e.message, 4000);
@@ -764,7 +809,7 @@ function formHtml(it, i) {
     <div class="g2"><div><label>Data (limite ou do ato)</label><input type="date" data-k="date" value="${esc(it.date)}"></div>
       <div><label>Hora ${it.tipo === 'Prazo' ? '(opcional)' : ''}</label><input type="time" data-k="hora" value="${esc(it.hora)}"></div></div>
     <div class="calc"><div><label>Prazo</label><input type="number" min="1" data-calc="n" placeholder="dias"></div>
-      <div><label>Contagem a partir de</label><input type="date" data-calc="ini" value="${today()}"></div>
+      <div><label>Contagem a partir de</label><input type="date" data-calc="ini" value="${it._calcIni || today()}"></div>
       <div class="row"><select data-calc="modo"><option value="úteis" ${S.config.contagem === 'úteis' ? 'selected' : ''}>úteis</option><option value="corridos" ${S.config.contagem === 'corridos' ? 'selected' : ''}>corridos</option></select><button class="btn sm" data-calcbtn>Calcular data</button></div></div>
     <div class="g2"><div><label>Processo</label><input type="text" data-k="processo" value="${esc(it.processo)}" placeholder="0000000-00.0000.0.00.0000"></div>
       <div><label>Órgão / vara</label><input type="text" data-k="orgao" value="${esc(it.orgao)}"></div></div>
@@ -822,7 +867,7 @@ function interpret(text, origem) {
 $('#btnInterpretar').onclick = () => { const t = $('#entrada').value.trim(); if (t) { interpret(t, 'texto'); $('#entrada').value = ''; } };
 $('#btnManual').onclick = () => { S.draft.push({ id: uid(), date: '', hora: '', cliente: '', evento: '', tipo: 'Prazo', processo: '', orgao: '', obs: '', status: 'Pendente', origem: 'texto', notas: [] }); renderPreview(); };
 $('#btnDescartar').onclick = () => { S.draft = []; renderPreview(); };
-const clean = it => { const o = Object.assign({}, it); delete o.notas; delete o._pend; return o; };
+const clean = it => { const o = Object.assign({}, it); delete o.notas; delete o._pend; delete o._calcIni; return o; };
 $('#btnSalvar').onclick = async () => {
   const falta = S.draft.find(it => !it.date || !it.evento);
   if (falta) { toast('Há compromisso sem data ou sem ato processual.'); return; }
@@ -945,7 +990,9 @@ function renderAlertas() {
   const urg = grupos[0][1].length + grupos[1][1].length + grupos[2][1].length;
   const badge = $('#badge'); badge.textContent = urg; badge.style.display = urg ? 'block' : 'none';
   const html = grupos.filter(g => g[1].length).map(g => `<div class="grp ${g[2]}">${g[0]} <span class="n">${g[1].length}</span></div>` + g[1].map(i => evCard(i, { showDate: g[0] === 'Atrasados' || g[0] === 'Próximos 7 dias' })).join('')).join('');
-  $('#alertas').innerHTML = html || '<div class="empty">Nenhum prazo ou audiência nos próximos 7 dias.</div>';
+  const nl = S.push.filter(p => !p.lido), nla = nl.filter(p => p.urgencia === 'Alta');
+  const banner = nl.length ? `<div class="banner" data-gopush><span class="grow">${nla.length ? `<b>${nla.length} movimentação(ões) urgente(s)</b> · ` : ''}${nl.length} push(es) não lido(s)</span><span>›</span></div>` : '';
+  $('#alertas').innerHTML = banner + (html || '<div class="empty">Nenhum prazo ou audiência nos próximos 7 dias.</div>');
 }
 
 /* ---------- agenda: semana / mês / ano ---------- */
@@ -1071,11 +1118,35 @@ function renderAjustes() {
     : m === 'local' ? 'Sem conexão com o Google: os compromissos ficam só neste aparelho e não geram lembretes automáticos. Use o botão “Google Agenda” de cada item ou exporte o arquivo .ics até concluir a instalação.'
     : 'Ligado ao Apps Script: cada compromisso vai para a planilha e para a agenda “Prazos e Audiências”.';
   $('#apiUrl').value = S.settings.apiUrl || ''; $('#token').value = S.settings.token || '';
+  renderMigra();
   const l = $('#lnkPlanilha'); if (S.sheetUrl) { l.href = S.sheetUrl; l.style.display = ''; } else l.style.display = 'none';
   const c = S.config;
   $('#cfgHora').value = c.horaPrazo || '08:00'; $('#cfgAnt').value = c.antecedencia || 120; $('#cfgCont').value = c.contagem || 'úteis';
+  $('#pushInfo').textContent = mode() === 'local' ? 'Conecte o app ao Google para usar os alertas de push.' : S.pushAtivo ? 'Leitor de push ativo.' : 'Leitor de push ainda não ativado no Apps Script.';
   $('#cfgRec').checked = !!c.recesso; $('#cfgMail').checked = !!c.emailDiario; $('#cfgEmail').value = c.email || '';
 }
+/* compromissos criados em modo local (antes de conectar ao Google) */
+function locaisNaoEnviados() {
+  const db = store.get('sj_local', null); if (!db || !db.items || !db.items.length) return [];
+  const ids = new Set(S.items.map(i => i.id));
+  return db.items.filter(i => !ids.has(i.id));
+}
+function renderMigra() {
+  const n = mode() === 'local' || S.online !== true ? 0 : locaisNaoEnviados().length;
+  $('#migraBox').style.display = n ? 'block' : 'none';
+  if (n) $('#migraTxt').textContent = n + ' compromisso(s) foram salvos só neste aparelho, antes da conexão com o Google. Envie-os para que entrem na planilha, na agenda e nos lembretes.';
+}
+$('#btnMigrar').onclick = async () => {
+  const items = locaisNaoEnviados(); if (!items.length) { renderMigra(); return; }
+  const b = $('#btnMigrar'); b.disabled = true; b.textContent = 'Enviando…';
+  try {
+    const r = await call('add', { items: items.map(clean) });
+    S.items.push(...r.items); saveCache();
+    const db = store.get('sj_local', { items: [] }); db.enviadosEm = new Date().toISOString(); store.set('sj_local_backup', db);
+    toast(items.length + ' compromisso(s) enviados ao Google'); renderAll();
+  } catch (e) { toast('Não foi possível enviar: ' + e.message, 4500); }
+  b.disabled = false; b.textContent = 'Enviar para a planilha e o Google Agenda'; renderMigra();
+};
 $('#btnConectar').onclick = async () => {
   S.settings.apiUrl = $('#apiUrl').value.trim(); S.settings.token = $('#token').value.trim();
   store.set('sj_settings', S.settings);
@@ -1103,7 +1174,71 @@ $$('nav.bottom button').forEach(b => b.onclick = () => {
   window.scrollTo(0, 0);
 });
 
-function renderAll() { setStatus(); renderLegend(); renderAlertas(); renderAgenda(); renderLista(); }
+/* ---------- push processual ---------- */
+const URG_A = /(intima[cç][aã]o|intimad[oa]|intime-se|cita[cç][aã]o|citad[oa]|cite-se|senten[cç]a|ac[oó]rd[aã]o|julgad[oa]|liminar|tutela|decis[aã]o|audi[eê]ncia|prazo|penhora|bloqueio|tr[aâ]nsito em julgado|embargos)/i;
+function pushResumo(t, max) {
+  const ls = String(t).split(/\s*\n\s*/).map(x => x.trim().replace(/^\d{2}\/\d{2}\/\d{4}(?:\s+\d{2}:\d{2})?\s*[-–:]?\s*/, ''))
+    .filter(x => x.length > 3 && !/^[^:]{2,40}:\s*$/.test(x) && !/^(processo|classe|assunto|partes?|autor|r[eé]u|polo|vara|[oó]rg[aã]o|comarca|data|hora|movimenta[cç][oõ]es)\b[^:]{0,20}:/i.test(x));
+  const s = (ls.find(x => URG_A.test(x)) || ls[0] || '').replace(/\s+/g, ' ');
+  return s.length > max ? s.slice(0, max - 1) + '…' : s;
+}
+const dmyIso = s => { const m = /(\d{2})\/(\d{2})\/(\d{4})/.exec(s || ''); return m ? m[3] + '-' + m[2] + '-' + m[1] : ''; };
+function renderPush() {
+  const nl = S.push.filter(p => !p.lido); const nla = nl.filter(p => p.urgencia === 'Alta');
+  const b = $('#badgePush'); b.textContent = nla.length || nl.length; b.style.display = nl.length ? 'block' : 'none';
+  $('#pushHead').innerHTML = mode() === 'local' ? '<h2>Push processual</h2><p class="small muted">Disponível quando o app estiver conectado ao Google (Ajustes).</p>'
+    : !S.pushAtivo ? '<h2>Push processual</h2><p class="small muted">O leitor de push ainda não foi ativado. No Apps Script, adicione o arquivo Push.gs e execute a função <b>configurarPush</b> (veja o guia).</p>'
+    : `<h2>Push processual</h2><div class="row small"><span class="grow">${nl.length} não lida(s) · ${nla.length} urgente(s) · ${S.push.length} no total</span>${nl.length ? '<button class="btn sm" id="btnLerTodas">Marcar todas como lidas</button>' : ''}</div>`;
+  const q = plain(S.pbusca);
+  const list = S.push.filter(p => (S.pf === 'todas' || (S.pf === 'nl' ? !p.lido : p.urgencia === 'Alta')) && (!q || plain([p.processo, p.cliente, p.texto, p.tribunal].join(' ')).includes(q)));
+  if (!list.length) { $('#pushList').innerHTML = `<div class="empty">${S.pf === 'nl' ? 'Nenhuma movimentação não lida.' : 'Nada encontrado.'}</div>`; return; }
+  let html = '', cur = '';
+  for (const p of list) {
+    const d = (p.recebido || '').slice(0, 10);
+    if (d !== cur) { cur = d; html += `<div class="grp">${d ? longDate(d) : 'Sem data'}</div>`; }
+    html += `<div class="pu u-${p.urgencia} ${p.lido ? 'lido' : ''}" data-pid="${esc(p.id)}">
+      <div class="top"><span class="ut ut-${p.urgencia}">${p.urgencia}</span><span>${esc(p.tribunal || '—')}</span><span>·</span><span>${esc(p.processo || 'processo não identificado')}</span>${p.dataMov ? `<span>· mov. ${esc(p.dataMov)}</span>` : ''}<span>· recebido ${esc((p.recebido || '').slice(11, 16))}</span></div>
+      <b>${esc(pushResumo(p.texto, 140))}${p.cliente ? ' — ' + esc(p.cliente) : ''}</b>
+      <div class="tx">${esc(p.texto)}</div>
+      <div class="acts">
+        <button class="btn sm" data-pact="ver">Ver tudo</button>
+        <button class="btn sm" data-pact="lida">${p.lido ? 'Marcar não lida' : 'Marcar lida'}</button>
+        <button class="btn sm" data-pact="prazo">Criar prazo</button>
+        ${p.link ? `<a class="btn sm" href="${esc(p.link)}" target="_blank" rel="noopener">Abrir e-mail</a>` : ''}
+      </div></div>`;
+  }
+  $('#pushList').innerHTML = html;
+}
+async function marcarPush(ids, lido) {
+  S.push.forEach(p => { if (ids.includes(p.id)) p.lido = lido; }); store.set('sj_push', S.push); renderPush(); renderAlertas();
+  try { await call('pushMark', { ids, lido }); } catch (e) { toast('Não foi possível salvar na planilha: ' + e.message, 3500); }
+}
+$('#pushList').addEventListener('click', e => {
+  const b = e.target.closest('[data-pact]'); if (!b) return;
+  const card = b.closest('[data-pid]'); const p = S.push.find(x => x.id === card.dataset.pid); if (!p) return;
+  const a = b.dataset.pact;
+  if (a === 'ver') { card.classList.toggle('open'); b.textContent = card.classList.contains('open') ? 'Recolher' : 'Ver tudo'; return; }
+  if (a === 'lida') { marcarPush([p.id], !p.lido); return; }
+  if (a === 'prazo') {
+    const ini = dmyIso(p.dataMov) || (p.recebido || '').slice(0, 10) || today();
+    S.draft.push({ id: uid(), date: '', hora: '', cliente: p.cliente || '', evento: 'Prazo — ' + pushResumo(p.texto, 70), tipo: 'Prazo', processo: p.processo || '', orgao: p.tribunal || '',
+      obs: 'Gerado a partir do push recebido em ' + br((p.recebido || '').slice(0, 10)) + '.', status: 'Pendente', origem: 'push', _calcIni: ini,
+      notas: ['Informe o número de dias do prazo e toque em “Calcular data”. A contagem já parte da data da movimentação (' + br(ini) + '); confira no processo a data efetiva da intimação.'] });
+    if (!p.lido) marcarPush([p.id], true);
+    renderPreview(); $$('nav.bottom button').find(x => x.dataset.tab === 'inicio').click();
+    setTimeout(() => $('#previewBox').scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  }
+});
+$('#pchips').onclick = e => { const c = e.target.closest('[data-pf]'); if (!c) return; S.pf = c.dataset.pf; $$('#pchips .chip').forEach(x => x.classList.toggle('on', x === c)); renderPush(); };
+$('#pbusca').oninput = e => { S.pbusca = e.target.value; renderPush(); };
+$('#pushHead').addEventListener('click', e => { if (e.target.id === 'btnLerTodas') marcarPush(S.push.filter(p => !p.lido).map(p => p.id), true); });
+$('#alertas').addEventListener('click', e => { if (e.target.closest('[data-gopush]')) $$('nav.bottom button').find(x => x.dataset.tab === 'push').click(); });
+$('#btnPushTest').onclick = async () => {
+  try { const r = await call('pushTest'); toast(r.r && r.r.ntfy ? 'Alerta de teste enviado (ntfy e agenda)' : 'Alerta de teste enviado pela agenda; ntfy não configurado', 4000); }
+  catch (e) { toast(/desconhecida/.test(e.message) ? 'Atualize o Code.gs e adicione o Push.gs no Apps Script.' : e.message, 4500); }
+};
+
+function renderAll() { setStatus(); renderLegend(); renderAlertas(); renderAgenda(); renderLista(); renderPush(); renderMigra(); }
 
 if ('serviceWorker' in navigator && location.protocol === 'https:' && mode() !== 'gas') navigator.serviceWorker.register('sw.js').catch(() => {});
 renderAll();
